@@ -1,0 +1,26 @@
+{
+  "name": "MeetHax (Beta)",
+  "version": "1.2",
+  "description": "MeetHax (Beta) v1.2 automates Google Meet.",
+  "permissions": ["storage"],
+  "manifest_version": 2,
+  "content_scripts": [
+  {
+    "matches": [
+      "https://meet.google.com/*",
+	  "http://meet.google.com/*"
+    ],
+    "js": ["auto_join.js"]
+  }
+],
+"background": {
+"scripts": ["detect_time.js"],
+"persistent": true
+},
+"browser_action": {
+    "default_icon": "logo.png"
+  },
+  "icons": {
+	"256": "logo.png"
+  }
+}
