@@ -76,11 +76,11 @@ timings.onload = function() {
 									if(message["currentLocation"] && (message["currentLocation"] != "")){crLocation = message["currentLocation"];}
 									chrome.tabs.onUpdated.addListener((tabId, changeInfo, newTab) => {
 								//		 chrome.extension.getBackgroundPage().console.log("Link set: " + changeInfo.url + "\nLink default: " + next[0] + "\nSupposed link: " + crLocation + "\nCurrent Status: " + changeInfo.status);
-										if(
+										if((
 										((changeInfo.url != undefined && changeInfo.url["length"] > 5) && 
 									(crLocation != undefined && crLocation.length > 22)) &&
 									(changeInfo.url != crLocation && changeInfo.url != next[0])
-										){
+									) && (tabId == tab.id && (endTime - new Date() > 0))){
 											chrome.tabs.update(tabId, {url: next[0]});
 										}
 		 							});
