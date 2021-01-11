@@ -62,12 +62,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 window.onload = function () {
 	window.setInterval(function () {
-		if ((document.body.innerHTML.includes('<div class="jtEd4b">You can\'t create a meeting yourself.') || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">This meeting hasn\'t started yet</div>')) || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">Someone has removed you from the meeting</div>')) {
+		if ((document.body.innerHTML.includes('<div class="jtEd4b">You can\'t create a meeting yourself.') || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">This meeting hasn\'t started yet</div>')) || (document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">Someone has removed you from the meeting</div>') || (document.querySelector('a[href="javascript:diagnoseErrors()"]') != undefined))) {
 			//Hitman mode
 			if (localStorage["flagUpdate"]) {
 				try {
 					chrome.runtime.sendMessage({
-						joined: (document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">This meeting hasn\'t started yet</div>')),
+						joined: ((document.querySelector('link[rel="canonical"]') != undefined) ? !(document.querySelector('link[rel="canonical"]').href.split("/")[4] == "whoops") : false),
 						currentLocation: location.href
 					});
 				} catch (e) {}
@@ -77,7 +77,7 @@ window.onload = function () {
 				if (request.verified && request.sender == "detect_time") {
 					localStorage.flagUpdate = true;
 					sendResponse({
-						joined: (document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">This meeting hasn\'t started yet</div>')),
+						joined: ((document.querySelector('link[rel="canonical"]') != undefined) ? !(document.querySelector('link[rel="canonical"]').href.split("/")[4] == "whoops") : false),
 						currentLocation: location.href
 					});
 					location.reload(); // Reload if the Google Meet hasn't started. We want to reload it until it starts.
