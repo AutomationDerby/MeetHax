@@ -32,6 +32,7 @@ timings.onload = function() {
     let next = null;
 	let current = new Date();
 	let crLocation = "";
+	let mCodeExp = false;
 	let alrSent = false;
     setInterval(function() {
 		// chrome.extension.getBackgroundPage().console.log(Object.keys(times));
@@ -64,7 +65,18 @@ timings.onload = function() {
                                         createTab();
                                     }
                                 });
+								let checkOnline = setInterval(() => {
+									let onlineChecker = new XMLHttpRequest();
+									onlineChecker.open("GET", "https://meet.google.com/");
+									onlineChecker.onerror = () => {
+									//	console.log("Network is offline. Google keeps their servers up, and this extension is built for Google Meet, so if Google is down, Google Meet is also down, so this extension becomes useless.");
+											chrome.tabs.remove(tab.id); // refresh the page until it works.
+									};
+									onlineChecker.send();
+								}, 1000);
+								chrome.tabs.onUpdated.addListener((tabId, changeInfo) => chrome.extension.getBackgroundPage().console.log(changeInfo));
 								chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+									chrome.extension.getBackgroundPage().console.log(changeInfo);
 								// chrome.extension.getBackgroundPage().console.log("Link set: " + crLocation + "\nLink default: " + next[0]);
 								if (tabId === tab.id && changeInfo.status == 'complete') {
 								chrome.tabs.onUpdated.removeListener(listener);
@@ -73,25 +85,28 @@ timings.onload = function() {
 								}
 								});
 								chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+									mCodeExp = new Boolean(message["expired"]).valueOf();
 									if(message["currentLocation"] && (message["currentLocation"] != "")){crLocation = message["currentLocation"];}
 									chrome.tabs.onUpdated.addListener((tabId, changeInfo, newTab) => {
-								//		 chrome.extension.getBackgroundPage().console.log("Link set: " + changeInfo.url + "\nLink default: " + next[0] + "\nSupposed link: " + crLocation + "\nCurrent Status: " + changeInfo.status);
-										if((
+										chrome.extension.getBackgroundPage().console.log(changeInfo);
+										 chrome.extension.getBackgroundPage().console.log("Link set: " + changeInfo.url + "\nLink default: " + next[0] + "\nSupposed link: " + crLocation + "\nCurrent Status: " + changeInfo.status);
+										if(((
 										((changeInfo.url != undefined && changeInfo.url["length"] > 5) && 
 									(crLocation != undefined && crLocation.length > 22)) &&
 									(changeInfo.url != crLocation && changeInfo.url != next[0])
-									) && (tabId == tab.id && (endTime - new Date() > 0))){
+									) && (tabId == tab.id && (endTime - new Date() > 0))) || (mCodeExp && (next[0].includes("/lookup/")))){
 											chrome.tabs.update(tabId, {url: next[0]});
 										}
 		 							});
 								});
                                 window.setTimeout(() => {
-                                  //  try {
+                                    try {
 										// chrome.extension.getBackgroundPage().console.log("Tab closed for " + next[0]);
 										chrome.tabs.sendMessage(tab.id, {verified: true, sender: "detect_time"});
 										crLocation = "";
+										clearInterval(checkOnline);
                                         chrome.tabs.remove(tab.id);
-                                  //  } catch (e) {}
+                                    } catch (e) {}
                                 }, endTime - new Date());
                             })
                         };
