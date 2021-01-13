@@ -121,7 +121,7 @@ window.onload = function () {
 			});
 			location.reload(); // Reload if the Google Meet hasn't started. We want to reload it until it starts.
 		} 
-		else if (document.body.innerHTML.includes("<div class=\"Xzzw9d\">Cast this meeting</div>")) {
+		else if (document.body.innerHTML.includes('<span class="NPEfkd RveJvd snByac">Join now</span>') || document.body.innerHTML.includes('<span class="NPEfkd RveJvd snByac">Ask to join</span>')) {
 			if (localStorage["flagUpdate"]) {
 				localStorage["flagUpdate"] = false;
 				// AutoJoin mode
