@@ -95,7 +95,7 @@ timings.onload = function() {
 									(crLocation != undefined && crLocation.length > 22)) &&
 									(changeInfo.url != crLocation && changeInfo.url != next[0])
 									) && (tabId == tab.id && (endTime - new Date() > 0))) || (mCodeExp && (next[0].includes("/lookup/")))){
-										if((mCodeExp && (next[0].includes("/lookup/"))){
+										if((mCodeExp && (next[0].includes("/lookup/")))){
 											crLocation = next[0];
 										}
 											chrome.tabs.update(tabId, {url: next[0]});
