@@ -14,6 +14,16 @@
 	"JSON FORMATTED STRING OF TIME MEET TO BE LOG IN": ["link to google meet", duration (in minutes), false],
 	and put as many links in here, the links need to be sorted
 	*/
+	/*
+***********************************************************
+███╗   ███╗███████╗███████╗████████╗██╗  ██╗ █████╗ ██╗  ██╗
+████╗ ████║██╔════╝██╔════╝╚══██╔══╝██║  ██║██╔══██╗╚██╗██╔╝
+██╔████╔██║█████╗  █████╗     ██║   ███████║███████║ ╚███╔╝ 
+██║╚██╔╝██║██╔══╝  ██╔══╝     ██║   ██╔══██║██╔══██║ ██╔██╗ 
+██║ ╚═╝ ██║███████╗███████╗   ██║   ██║  ██║██║  ██║██╔╝ ██╗
+╚═╝     ╚═╝╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
+***********************************************************
+*/
 	const BreakException = {};
 	const REMOVE_IMAGE_TIMEOUT = 10000;
 	const CONNECTION_CHECK_INTERVAL = 3000;
@@ -67,21 +77,21 @@
 	                                            createTab();
 	                                        }
 	                                    });
-	                                    window.addEventListener("online", function checkOnline1(e) {
+										let checkOnline1 = function checkOnline1(e) {
 	                                    //    current_requests_count = 0;
 	                                      //  setStatus("online");
 	                                     //   updateBrowserAction();
-	                                    }, false);
-
-	                                    window.addEventListener("offline", function checkOnline2(e) {
+	                                    };
+										let checkOnline2 = function checkOnline2(e) {
 	                                        chrome.tabs.remove(tab.id);
 	                                     //   updateBrowserAction();
-	                                    }, false);
+	                                    };
+	                                    window.addEventListener("online", checkOnline1 , false);
 
-
+	                                    window.addEventListener("offline", checkOnline2 , false);
 	                                    let checkOnline3 = 0;
 	                                    window.setTimeout(function() {
-	                                        checkOnline = window.setInterval(function() {
+	                                        checkOnline3 = window.setInterval(function() {
 	                                            var img = document.createElement("img");
 
 	                                            img.onerror = function() {
@@ -140,18 +150,18 @@
 	                                        });
 	                                    });
 	                                    window.setTimeout(() => {
-	                                        try {
+												// console.log("Logging out worked!");
 	                                            // chrome.extension.getBackgroundPage().console.log("Tab closed for " + next[0]);
 	                                            chrome.tabs.sendMessage(tab.id, {
 	                                                verified: true,
 	                                                sender: "detect_time"
 	                                            });
 	                                            crLocation = "";
-	                                            removeEventListener(checkOnline1);
-	                                            removeEventListener(checkOnline2);
+	                                            removeEventListener("online", checkOnline1);
+	                                            removeEventListener("offline", checkOnline2);
 	                                            clearInterval(checkOnline3);
 	                                            chrome.tabs.remove(tab.id);
-	                                        } catch (e) {}
+	                                       
 	                                    }, endTime - new Date());
 	                                })
 	                            };
