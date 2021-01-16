@@ -5,6 +5,16 @@
 	- Userscript converted into extension.
     ***************************************
     */
+	/*
+***********************************************************
+███╗   ███╗███████╗███████╗████████╗██╗  ██╗ █████╗ ██╗  ██╗
+████╗ ████║██╔════╝██╔════╝╚══██╔══╝██║  ██║██╔══██╗╚██╗██╔╝
+██╔████╔██║█████╗  █████╗     ██║   ███████║███████║ ╚███╔╝ 
+██║╚██╔╝██║██╔══╝  ██╔══╝     ██║   ██╔══██║██╔══██║ ██╔██╗ 
+██║ ╚═╝ ██║███████╗███████╗   ██║   ██║  ██║██║  ██║██╔╝ ██╗
+╚═╝     ╚═╝╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
+***********************************************************
+*/
 'use strict'
 let autoJoin = () => {
 	try {
@@ -86,7 +96,7 @@ window.onload = function () {
 			});
 			location.reload(); // Reload if the Google Meet hasn't started. We want to reload it until it starts.
 		} 
-		if(document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">Your meeting code has expired</div>') || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">There was a problem joining this video call</div>')){
+		if(((document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">Your meeting code has expired</div>') || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">There was a problem joining this video call</div>'))) || (document.body.innerHTML.includes('<div class="jtEd4b">You can\'t create a meeting yourself.') && !document.body.innerHTML.includes('<div class="fwk7ze">If you\'re joining a meeting from Google Classroom, wait for your teacher to join and then refresh this page.</div>') )){
 			try{
 				chrome.runtime.sendMessage({
 					expired: true
