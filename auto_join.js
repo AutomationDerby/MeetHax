@@ -5,16 +5,6 @@
 	- Userscript converted into extension.
     ***************************************
     */
-	/*
-***********************************************************
-███╗   ███╗███████╗███████╗████████╗██╗  ██╗ █████╗ ██╗  ██╗
-████╗ ████║██╔════╝██╔════╝╚══██╔══╝██║  ██║██╔══██╗╚██╗██╔╝
-██╔████╔██║█████╗  █████╗     ██║   ███████║███████║ ╚███╔╝ 
-██║╚██╔╝██║██╔══╝  ██╔══╝     ██║   ██╔══██║██╔══██║ ██╔██╗ 
-██║ ╚═╝ ██║███████╗███████╗   ██║   ██║  ██║██║  ██║██╔╝ ██╗
-╚═╝     ╚═╝╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
-***********************************************************
-*/
 'use strict'
 let autoJoin = () => {
 	try {
@@ -70,6 +60,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		delete localStorage.flagUpdate;
 	}
 });
+document.oncontextmenu = () => false;
+document.onkeydown = function(e) {
+  if(event.keyCode == 123) {
+     return false;
+  }
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+     return false;
+  }
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+     return false;
+  }
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+     return false;
+  }
+  if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+     return false;
+  }
+}
 
 window.onload = function () {
 	window.setInterval(function () {
@@ -96,7 +104,7 @@ window.onload = function () {
 			});
 			location.reload(); // Reload if the Google Meet hasn't started. We want to reload it until it starts.
 		} 
-		if(((document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">Your meeting code has expired</div>') || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">There was a problem joining this video call</div>'))) || (document.body.innerHTML.includes('<div class="jtEd4b">You can\'t create a meeting yourself.') && !document.body.innerHTML.includes('<div class="fwk7ze">If you\'re joining a meeting from Google Classroom, wait for your teacher to join and then refresh this page.</div>') )){
+		if(document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">Your meeting code has expired</div>') || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">There was a problem joining this video call</div>')){
 			try{
 				chrome.runtime.sendMessage({
 					expired: true
