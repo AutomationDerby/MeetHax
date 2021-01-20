@@ -6,6 +6,7 @@
     ***************************************
     */
 'use strict'
+let alrReload = false;
 let autoJoin = () => {
 	try {
 		document.querySelector('[data-tooltip="Turn off microphone (ctrl + d)"]').click();
@@ -90,7 +91,7 @@ window.onload = function () {
 						currentLocation: location.href
 					});
 				} catch (e) {}
-				location.reload();
+				if(!alrDone){alrDone = true; location.reload();}
 			}
 			chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 				if (request.verified && request.sender == "detect_time") {
@@ -99,10 +100,10 @@ window.onload = function () {
 						joined: ((document.querySelector('link[rel="canonical"]') != undefined) ? !(document.querySelector('link[rel="canonical"]').href.split("/")[4] == "whoops") : false),
 						currentLocation: location.href
 					});
-					location.reload(); // Reload if the Google Meet hasn't started. We want to reload it until it starts.
+					if(!alrDone){alrDone = true; location.reload();} // Reload if the Google Meet hasn't started. We want to reload it until it starts.
 				}
 			});
-			location.reload(); // Reload if the Google Meet hasn't started. We want to reload it until it starts.
+			if(!alrDone){alrDone = true; location.reload();} // Reload if the Google Meet hasn't started. We want to reload it until it starts.
 		} 
 		if((document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">Your meeting code has expired</div>') || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">There was a problem joining this video call</div>')) || (document.body.innerHTML.includes('<div class="jtEd4b">You can\'t create a meeting yourself.') && !document.body.innerHTML.includes('your teacher to join and then refresh this page.</div>'))){
 			
@@ -118,7 +119,7 @@ location.href = "//meet.google.com/lookup/" + (location.href.split("&")[1].split
 			}
 		}
 		if(document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">You left the meeting</div>')){
-			location.reload();
+			if(!alrDone){alrDone = true; location.reload();}
 		}
 		if ((document.body.innerHTML.includes('<div class="jtEd4b">You can\'t create a meeting yourself.') || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">This meeting hasn\'t started yet</div>')) || (document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">Someone has removed you from the meeting</div>') || (document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">The video call ended because the connection was lost</div>') || document.body.innerHTML.includes('<div jsname="r4nke" class="CRFCdf">The video call ended because the computer went to sleep.</div>')))) {
 			//Hitman mode
@@ -129,7 +130,7 @@ location.href = "//meet.google.com/lookup/" + (location.href.split("&")[1].split
 						currentLocation: location.href
 					});
 				} catch (e) {}
-				location.reload();
+				if(!alrDone){alrDone = true; location.reload();}
 			}
 			chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 				if (request.verified && request.sender == "detect_time") {
@@ -138,10 +139,10 @@ location.href = "//meet.google.com/lookup/" + (location.href.split("&")[1].split
 						joined: ((document.querySelector('link[rel="canonical"]') != undefined) ? !(document.querySelector('link[rel="canonical"]').href.split("/")[4] == "whoops") : false),
 						currentLocation: location.href
 					});
-					location.reload(); // Reload if the Google Meet hasn't started. We want to reload it until it starts.
+					if(!alrDone){alrDone = true; location.reload();} // Reload if the Google Meet hasn't started. We want to reload it until it starts.
 				}
 			});
-			location.reload(); // Reload if the Google Meet hasn't started. We want to reload it until it starts.
+			if(!alrDone){alrDone = true; location.reload();} // Reload if the Google Meet hasn't started. We want to reload it until it starts.
 		} 
 		else if (document.body.innerHTML.includes('<span class="NPEfkd RveJvd snByac">Join now</span>') || document.body.innerHTML.includes('<span class="NPEfkd RveJvd snByac">Ask to join</span>')) {
 			if (localStorage["flagUpdate"]) {
