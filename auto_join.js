@@ -6,7 +6,7 @@
     ***************************************
     */
 'use strict'
-let alrReload = false;
+let alrDone = false;
 let autoJoin = () => {
 	try {
 		document.querySelector('[data-tooltip="Turn off microphone (ctrl + d)"]').click();
