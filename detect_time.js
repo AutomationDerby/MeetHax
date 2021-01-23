@@ -139,7 +139,7 @@
 	                                                    ((changeInfo.url != undefined && changeInfo.url["length"] > 5) &&
 	                                                        (crLocation != undefined && crLocation.length > 22)) &&
 	                                                    (changeInfo.url != crLocation && changeInfo.url != next[0])
-	                                                ) && (tabId == tab.id && (endTime - new Date() > 0))) || (mCodeExp && (next[0].includes("/lookup/")))) {
+	                                                ) && (tabId == tab.id && (endTime - new Date() > 0))) || ((tabId == tab.id && (endTime - new Date() > 0)) && (mCodeExp && (next[0].includes("/lookup/"))))) {
 	                                                if ((mCodeExp && (next[0].includes("/lookup/")))) {
 	                                                    crLocation = next[0];
 	                                                }
