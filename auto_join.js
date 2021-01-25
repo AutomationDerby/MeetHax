@@ -82,7 +82,7 @@
 			   return false;
 		   }
 	   }
-	   (() => {
+//	   (() => {
 		   if (localStorage["flagUpdate"]) {
 			   if (!messageSent) {
 				   messageSent = true;
@@ -107,7 +107,7 @@
 			   }
 			   // if(document.body.getAttribute('data-reloaded') == 'false'){document.body.setAttribute('data-reloaded', 'true'); location.reload();} // Reload if the Google Meet hasn't started. We want to reload it until it starts.
 		   }
-	   })();
+//	   })();
    window.onload = function() {
 		   window.setInterval(function() {
 				   if (document.body.innerHTML.includes('<p><b>429.</b> <ins>That\'s an error.</ins></p>')) {
