@@ -1,7 +1,7 @@
 {
   "name": "MeetHax (Beta)",
-  "version": "1.2.1",
-  "description": "MeetHax (Beta) v1.2.1 automates Google Meet.",
+  "version": "1.3",
+  "description": "MeetHax (Beta) v1.3 automates Google Meet.",
   "permissions": ["storage", "tabs"],
   "manifest_version": 2,
   "content_scripts": [
