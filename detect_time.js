@@ -129,7 +129,7 @@
 	                                    });
 	                                    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	                                        mCodeExp = new Boolean(message["expired"]).valueOf();
-											if ((tabId == tab.id && (endTime - new Date() > 0)) && (mCodeExp && (next[0].includes("/lookup/")))) {
+											if ((sender.tab.id == tab.id && (endTime - new Date() > 0)) && (mCodeExp && (next[0].includes("/lookup/")))) {
 														mCodeExp = false;
 	                                                    crLocation = next[0];
 														chrome.tabs.update(tabId, {url: next[0]});
