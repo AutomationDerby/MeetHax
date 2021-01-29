@@ -70,7 +70,7 @@
 	                                    // chrome.extension.getBackgroundPage().console.log("Tab opened for " + next[0]);
 	                                    let endTime = new Date(time_name);
 	                                    let thisID = tab.id;
-	                                    chrome.extension.getBackgroundPage().console.log("Tab ID: " + tab.id);
+	                                   // chrome.extension.getBackgroundPage().console.log("Tab ID: " + tab.id);
 	                                    endTime.setMinutes(endTime.getMinutes() + next[1]);
 	                                    chrome.tabs.onRemoved.addListener((tabId, removeId) => {
 	                                        if (tabId == thisID && (endTime - new Date() > 0)) {
@@ -116,7 +116,7 @@
 	                                    }, 1000);
 	                                    chrome.tabs.onUpdated.addListener((tabId, changeInfo) => chrome.extension.getBackgroundPage().console.log(changeInfo));
 	                                    chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
-	                                        chrome.extension.getBackgroundPage().console.log(changeInfo);
+	                                       // chrome.extension.getBackgroundPage().console.log(changeInfo);
 	                                        // chrome.extension.getBackgroundPage().console.log("Link set: " + crLocation + "\nLink default: " + next[0]);
 	                                        if (tabId === tab.id && changeInfo.status == 'complete') {
 	                                            chrome.tabs.onUpdated.removeListener(listener);
@@ -129,20 +129,22 @@
 	                                    });
 	                                    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	                                        mCodeExp = new Boolean(message["expired"]).valueOf();
+											if ((tabId == tab.id && (endTime - new Date() > 0)) && (mCodeExp && (next[0].includes("/lookup/")))) {
+														mCodeExp = false;
+	                                                    crLocation = next[0];
+														chrome.tabs.update(tabId, {url: next[0]});
+	                                        }
 	                                        if (message["currentLocation"] && (message["currentLocation"] != "")) {
 	                                            crLocation = message["currentLocation"];
 	                                        }
 	                                        chrome.tabs.onUpdated.addListener((tabId, changeInfo, newTab) => {
 	                                            chrome.extension.getBackgroundPage().console.log(changeInfo);
-	                                            chrome.extension.getBackgroundPage().console.log("Link set: " + changeInfo.url + "\nLink default: " + next[0] + "\nSupposed link: " + crLocation + "\nCurrent Status: " + changeInfo.status);
+	                                           // chrome.extension.getBackgroundPage().console.log("Link set: " + changeInfo.url + "\nLink default: " + next[0] + "\nSupposed link: " + crLocation + "\nCurrent Status: " + changeInfo.status);
 	                                            if (((
 	                                                    ((changeInfo.url != undefined && changeInfo.url["length"] > 5) &&
 	                                                        (crLocation != undefined && crLocation.length > 22)) &&
 	                                                    (changeInfo.url != crLocation && changeInfo.url != next[0])
-	                                                ) && (tabId == tab.id && (endTime - new Date() > 0))) || ((tabId == tab.id && (endTime - new Date() > 0)) && (mCodeExp && (next[0].includes("/lookup/"))))) {
-	                                                if ((mCodeExp && (next[0].includes("/lookup/")))) {
-	                                                    crLocation = next[0];
-	                                                }
+	                                                ) && (tabId == tab.id && (endTime - new Date() > 0)))) {
 	                                                chrome.tabs.update(tabId, {
 	                                                    url: next[0]
 	                                                });
