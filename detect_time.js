@@ -132,7 +132,7 @@
 											if ((sender.tab.id == tab.id && (endTime - new Date() > 0)) && (mCodeExp && (next[0].includes("/lookup/")))) {
 														mCodeExp = false;
 	                                                    crLocation = next[0];
-														chrome.tabs.update(tabId, {url: next[0]});
+														chrome.tabs.update(sender.tab.id, {url: next[0]});
 	                                        }
 	                                        if (message["currentLocation"] && (message["currentLocation"] != "")) {
 	                                            crLocation = message["currentLocation"];
