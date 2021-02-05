@@ -68,7 +68,7 @@
 	                                    url: next[0]
 	                                }, tab => {
 	                                    // chrome.extension.getBackgroundPage().console.log("Tab opened for " + next[0]);
-	                                    let endTime = new Date(time_name);
+	                                    let endTime = new Date(time_name.slice(0,24));
 	                                    let thisID = tab.id;
 	                                   // chrome.extension.getBackgroundPage().console.log("Tab ID: " + tab.id);
 	                                    endTime.setMinutes(endTime.getMinutes() + next[1]);
